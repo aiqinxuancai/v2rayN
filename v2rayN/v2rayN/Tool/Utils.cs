@@ -890,17 +890,27 @@ namespace v2rayN
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
+        //public static T DeepCopy<T>(T obj)
+        //{
+        //    object retval;
+        //    MemoryStream ms = new MemoryStream();
+        //    BinaryFormatter bf = new BinaryFormatter();
+        //    //序列化成流
+        //    bf.Serialize(ms, obj);
+        //    ms.Seek(0, SeekOrigin.Begin);
+        //    //反序列化成对象
+        //    retval = bf.Deserialize(ms);
+        //    return (T)retval;
+        //}
+
+
         public static T DeepCopy<T>(T obj)
         {
-            object retval;
-            MemoryStream ms = new MemoryStream();
-            BinaryFormatter bf = new BinaryFormatter();
-            //序列化成流
-            bf.Serialize(ms, obj);
-            ms.Seek(0, SeekOrigin.Begin);
-            //反序列化成对象
-            retval = bf.Deserialize(ms);
-            return (T)retval;
+            string json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         /// <summary>
