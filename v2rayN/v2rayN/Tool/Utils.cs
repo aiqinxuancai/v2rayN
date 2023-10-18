@@ -675,6 +675,15 @@ namespace v2rayN
             return AppDomain.CurrentDomain.BaseDirectory;
         }
 
+        public static string AppDataPath()
+        {
+            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
+            appDataPath += @"\V2RayN";
+
+            return appDataPath;
+        }
+
         public static string? RegReadValue(string path, string name, string def)
         {
             RegistryKey? regKey = null;
@@ -725,6 +734,7 @@ namespace v2rayN
             {
                 regKey?.Close();
             }
+            
         }
 
         /// <summary>
@@ -1125,7 +1135,7 @@ namespace v2rayN
         }
         public static string GetLogPath(string filename = "")
         {
-            string _tempPath = Path.Combine(StartupPath(), "guiLogs");
+            string _tempPath = Path.Combine(AppDataPath(), "guiLogs");
             if (!Directory.Exists(_tempPath))
             {
                 Directory.CreateDirectory(_tempPath);
